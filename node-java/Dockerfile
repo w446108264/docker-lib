@@ -1,5 +1,18 @@
 FROM openjdk:alpine
  
+
+RUN apk add --update \
+    bash \
+    bzip2 \
+    curl \
+    ca-certificates \
+    git \
+    openssh \
+    unzip \
+    wget \
+    && update-ca-certificates \
+    && rm -rf /var/cache/apk/*
+
 ################## NODE  https://github.com/nodejs/docker-node/blob/e1103db1e7330f620ec4b5961b93936da11becdf/7.9/alpine/Dockerfile
 
 ENV NPM_CONFIG_LOGLEVEL info
@@ -66,4 +79,8 @@ RUN apk add --no-cache --virtual .build-deps-yarn curl gnupg \
   && chmod +x /usr/local/bin/yarn \
   && apk del .build-deps-yarn
 
-CMD [ "node" ]
+ 
+################## CLEAR
+
+RUN npm install -g yarn \
+  && npm cache clear
